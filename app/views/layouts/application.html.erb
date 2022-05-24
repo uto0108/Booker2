@@ -2,15 +2,95 @@
 <html>
   <head>
     <title>Bookers2</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            <span>Bookers</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+             <ul class="navbar-nav ml-auto">
+                <% if user_signed_in? %>
+                <li class="nav-item">
+                  <%= link_to user_path(current_user.id), class:'nav-link text-light' do %>
+                    <i class="fas fa-home" style="color:white;"></i>
+                    <span>Home</span>
+                  <% end %>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/users">
+                   <i class="fas fa-users" style="color:white;"></i> <span>Users</span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/books">
+                   <i class="fas fa-book-open" style="color:white"></i> <span>Books</span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link text-light" rel="nofollow" data-method="delete" href="/users/sign_out">
+                   <i class="fas fa-sign-out-alt" style="color:white;"></i> <span>Log out</span>
+                  </a>
+                </li>
+                <% else %>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/">
+                   <i class="fas fa-home" style="color:white;"></i> <span>Home</span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link text-light" href= "/home/about" >
+                    <i class="fas fa-link" style="color:white;"></i> <span>About</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/users/sign_up">
+                    <i class="fas fa-user-plus" style="color:white;"></i> <span>Sign up</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/users/sign_in">
+                    <i class="fas fa-sign-in-alt" style="color:white;"></i> <span>Log in</span>
+                  </a>
+                </li>
+                <% end %>
+             </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <% flash.each do |key, value| %>
+        <%= content_tag(:div, value, class: "#{key}") %>
+      <% end %>
+      <%= yield %>
+    </main>
+    <footer>
+      <div class="container mt-5" >
+        <div class="row">
+          <div class="mx-auto">
+            <p>CopyRight Infratop.inc</p>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
